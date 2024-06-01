@@ -1,5 +1,5 @@
 import streamlit as st
-import openal
+import openai
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 
