@@ -1,5 +1,5 @@
 import streamlit as st
-import openai
+import openal
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 
@@ -16,21 +16,24 @@ def embed_semantic_context(text):
 
 
 def generate_optimized_content(prompt, api_key):
-    openai.api_key = api_key
-    response = openai.ChatCompletion.create(
+    # openai.api_key = api_key
+    openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+    response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt},
         ],
-        max_tokens=500,
+        max_tokens=300,
     )
-    return response.choices[0].message["content"].strip()
+    return response.choices[0].message.content
 
 
 def get_seo_advice(question, api_key):
-    openai.api_key = api_key
-    response = openai.ChatCompletion.create(
+    # openai.api_key = api_key
+    openai.api_key = st.secrets["OPENAI_API_KEY"]
+    response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {
@@ -41,7 +44,7 @@ def get_seo_advice(question, api_key):
         ],
         max_tokens=100,
     )
-    return response.choices[0].message["content"].strip()
+    return response.choices[0].message.content
 
 
 # Initialize the LDA model and vectorizer
@@ -72,12 +75,15 @@ prompt = st.sidebar.text_area(
     "Content Generation Prompt:", "Write an SEO-optimized blog post about..."
 )
 if st.sidebar.button("Generate Content"):
-    api_key = st.sidebar.text_input("OpenAI API Key", type="password")
-    if api_key:
-        generated_content = generate_optimized_content(prompt, api_key)
-        st.write(f"Generated Content: {generated_content}")
-    else:
-        st.write("Please enter your OpenAI API key.")
+    # api_key = st.sidebar.text_input(st.secrets["OPENAI_API_KEY"], type="password")
+    generated_content = generate_optimized_content(prompt, st.secrets["OPENAI_API_KEY"])
+    st.write(f"Generated Content: {generated_content}")
+
+#    if api_key:
+#        generated_content = generate_optimized_content(prompt, st.secrets["OPENAI_API_KEY"])
+#        st.write(f"Generated Content: {generated_content}")
+#    else:
+#       st.write("Please enter your OpenAI API key.")
 
 st.sidebar.header("Get SEO Advice")
 question = st.sidebar.text_input(
@@ -85,9 +91,11 @@ question = st.sidebar.text_input(
     'How can I improve my website\'s SEO for the keyword "Generative AI"?',
 )
 if st.sidebar.button("Get Advice"):
-    api_key = st.sidebar.text_input("OpenAI API Key", type="password")
-    if api_key:
-        advice = get_seo_advice(question, api_key)
-        st.write(f"SEO Advice: {advice}")
-    else:
-        st.write("Please enter your OpenAI API key.")
+    # api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+    advice = get_seo_advice(question, st.secrets["OPENAI_API_KEY"])
+    st.write(f"SEO Advice: {advice}")
+#    if api_key:
+#        advice = get_seo_advice(question, st.secrets["OPENAI_API_KEY"])
+#        st.write(f"SEO Advice: {advice}")
+#    else:
+#        st.write("Please enter your OpenAI API key.")
