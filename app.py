@@ -57,10 +57,6 @@ st.title("AI-Powered SEO Optimization Tool")
 
 st.sidebar.header("Optimize Content")
 
-st.write(
-    "Has environment variables been set:",
-    os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
-)
 
 text = st.sidebar.text_area(
     "Content:", "Generative AI can significantly enhance SEO strategies..."
