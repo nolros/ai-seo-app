@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
+import os
 
 
 # Define your functions here (placeholders for now)
@@ -55,6 +56,12 @@ vectorizer = CountVectorizer(max_features=1000, stop_words="english")
 st.title("AI-Powered SEO Optimization Tool")
 
 st.sidebar.header("Optimize Content")
+
+st.write(
+    "Has environment variables been set:",
+    os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
+)
+
 text = st.sidebar.text_area(
     "Content:", "Generative AI can significantly enhance SEO strategies..."
 )
